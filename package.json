@@ -1,0 +1,42 @@
+{
+  "name": "ai-readiness-scorecard",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MIT",
+  "description": "A self-serve AI readiness audit: score your data, tools and team, get the two or three things worth doing first, and check the blast radius of anything that runs unattended.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exponen-agi/ai-readiness-scorecard.git"
+  },
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.475.0",
+    "next": "^16.0.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "9.36.0",
+    "eslint-config-next": "^16.0.10",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "vitest": "^2.1.9"
+  }
+}
