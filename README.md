@@ -58,9 +58,10 @@ Requires Node 20 or newer.
 
 `npm run build` writes a static site to `out/` that any web server or object store can host.
 
-- **GitHub Pages** — enable Pages with "GitHub Actions" as the source. The included
-  `.github/workflows/deploy-pages.yml` builds with the right base path and publishes on every
-  push to `main`.
+- **GitHub Pages** — nothing to set up. The included `.github/workflows/deploy-pages.yml` turns
+  Pages on for the repository the first time it runs, builds with the right base path, and
+  publishes on every push to `main`. The site lands at
+  `https://<owner>.github.io/<repo>`; put that in `siteConfig.url`.
 - **Anywhere else** — serve `out/` as-is. Deploying under a sub-path needs
   `NEXT_PUBLIC_BASE_PATH=/your-path` at build time.
 
