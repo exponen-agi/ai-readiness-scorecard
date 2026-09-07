@@ -1,5 +1,5 @@
-# Publishes the static export to GitHub Pages. Enable Pages for the repository with
-# "GitHub Actions" as the source, then this runs on every push to main.
+# Publishes the static export to GitHub Pages on every push to main. The first run also turns
+# Pages on for the repository (see `enablement` below), so no manual settings step is needed.
 name: Deploy to GitHub Pages
 
 on:
@@ -32,7 +32,12 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
       # Next's static export does not emit .nojekyll, and Pages would otherwise drop /_next.
       - run: touch out/.nojekyll
+      # `enablement` creates the Pages site on the first run and sets its source to GitHub
+      # Actions, using the `pages: write` permission above. Without it the action only reads the
+      # existing configuration and fails with "Not Found" on a repository where Pages is off.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
