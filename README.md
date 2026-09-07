@@ -58,10 +58,18 @@ Requires Node 20 or newer.
 
 `npm run build` writes a static site to `out/` that any web server or object store can host.
 
-- **GitHub Pages** — nothing to set up. The included `.github/workflows/deploy-pages.yml` turns
-  Pages on for the repository the first time it runs, builds with the right base path, and
-  publishes on every push to `main`. The site lands at
+- **GitHub Pages** — the included `.github/workflows/deploy-pages.yml` builds with the right
+  base path and publishes on every push to `main`. The site lands at
   `https://<owner>.github.io/<repo>`; put that in `siteConfig.url`.
+
+  The repository's Pages **source must be set to "GitHub Actions"** (Settings → Pages → Build
+  and deployment). The workflow turns Pages on by itself if it is off entirely, but it cannot
+  convert a site that is already set to "Deploy from a branch" — and that is the default when
+  Pages is enabled by hand. If the source stays on a branch, GitHub runs its own Jekyll build
+  alongside this workflow, and since there is no `index.html` at the repository root, Jekyll
+  renders `README.md` instead. Both then publish to the same URL and the last one to finish
+  wins, so the site flips between this documentation and the actual app. Switching the source
+  to GitHub Actions stops the Jekyll build and makes the workflow the only publisher.
 - **Anywhere else** — serve `out/` as-is. Deploying under a sub-path needs
   `NEXT_PUBLIC_BASE_PATH=/your-path` at build time.
 
