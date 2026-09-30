@@ -76,8 +76,10 @@ Requires Node 20 or newer.
 ## Making it yours
 
 `src/config/site.ts` holds every piece of branding: name, organisation, description, public URL,
-repository link, and an optional call-to-action button (set `ctaUrl` to `null` and no CTA is
-rendered). The scoring engine has no branding in it at all, so a rebrand is that one file.
+repository link, an optional call-to-action button (set `ctaUrl` to `null` and no CTA is
+rendered), and the next-step card under the results that points to the
+[AI-Native Flow Blueprint](https://github.com/exponen-agi/ai-native-flow) (set `nextStep` to `null`
+to hide it). The scoring engine has no branding in it at all, so a rebrand is that one file.
 
 To change the questions, edit `src/lib/scorecard.ts`:
 

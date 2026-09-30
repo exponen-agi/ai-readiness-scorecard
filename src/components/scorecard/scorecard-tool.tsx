@@ -21,6 +21,8 @@ import { Badge } from '@/components/ui/badge';
 import { siteConfig } from '@/config/site';
 import {
   Sparkles,
+  ArrowRight,
+  Workflow,
   ArrowDown,
   RotateCcw,
   AlertTriangle,
@@ -891,6 +893,29 @@ Audit run at: ${siteConfig.url}`;
               ))}
             </ul>
           </div>
+
+          {/* Next step: a follow-on tool, configured in site.ts */}
+          {siteConfig.nextStep && (
+            <div className="flex flex-col gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between print:hidden">
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <Workflow className="h-4 w-4" />
+                </div>
+                <div className="max-w-2xl">
+                  <h3 className="font-headline text-base font-semibold text-primary">
+                    {siteConfig.nextStep.lead}
+                  </h3>
+                  <p className="mt-1 text-sm text-foreground/75">{siteConfig.nextStep.body}</p>
+                </div>
+              </div>
+              <Button asChild className="w-full flex-shrink-0 sm:w-auto">
+                <a href={siteConfig.nextStep.url} target="_blank" rel="noopener noreferrer">
+                  {siteConfig.nextStep.label}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row print:hidden">
