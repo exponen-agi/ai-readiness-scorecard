@@ -20,13 +20,46 @@ export const siteConfig = {
   ctaUrl: null as string | null,
   ctaLabel: 'Discuss these results on a call',
   /**
-   * A follow-on tool offered under the results, for the reader who now knows where they stand
-   * and wants to know what to do next. Set to null to hide the card.
+   * The follow-on tool: this scorecard says where you stand, the next tool says how AI should
+   * run once you get there. Offered in the hero as step 2 of the journey, and again under the
+   * priority actions with a headline matched to the reader's score. Set to null to hide both.
    */
   nextStep: {
-    lead: 'Know your score? See how AI should run in your business.',
-    body: 'The AI-Native Flow Blueprint turns a few answers about your business into a plan: which repeating work to hand to AI, where a person should still decide, and what order to do it in. Free, and it runs in your browser too.',
-    label: 'Open the AI-Native Flow Blueprint',
+    /** Short name used in the hero journey strip and the copied summary. */
+    name: 'AI-Native Flow Blueprint',
+    /** Small label above the results card. */
+    eyebrow: 'Step 2 · Turn this score into an operating plan',
+    /**
+     * Headline under the results, picked by overall score: the first entry whose `minScore`
+     * the score reaches. Keep them ordered from highest to lowest.
+     */
+    leadsByScore: [
+      {
+        minScore: 80,
+        text: 'You are ready to scale. Next, design how AI runs the whole business, not just the product.',
+      },
+      {
+        minScore: 60,
+        text: 'You are close. Map which work AI takes over, and where a person still decides, before you scale.',
+      },
+      {
+        minScore: 40,
+        text: 'Fix the foundations with a plan: what AI should take on first, and in what order.',
+      },
+      {
+        minScore: 0,
+        text: 'Start small, on purpose. Find the one repeating workflow worth handing to AI first.',
+      },
+    ],
+    body: 'The AI-Native Flow Blueprint turns a few answers about your business into an operating model: which repeating work to hand to AI, where a person should still decide, the tools that fit your stage, and the order to roll it out. Free, and it runs in your browser too.',
+    label: 'Build my AI-Native Flow Blueprint',
     url: 'https://exponen-agi.github.io/ai-native-flow/',
-  } as { lead: string; body: string; label: string; url: string } | null,
+  } as {
+    name: string;
+    eyebrow: string;
+    leadsByScore: { minScore: number; text: string }[];
+    body: string;
+    label: string;
+    url: string;
+  } | null,
 } as const;
