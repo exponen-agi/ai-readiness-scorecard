@@ -1,6 +1,6 @@
 import { ScorecardTool } from '@/components/scorecard/scorecard-tool';
 import { siteConfig } from '@/config/site';
-import { Database, Wrench, ShieldAlert } from 'lucide-react';
+import { Database, Github, Wrench, ShieldAlert } from 'lucide-react';
 
 const highlights = [
   {
@@ -23,6 +23,23 @@ const highlights = [
 export default function Home() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
+      <header className="border-b border-border/60 bg-background print:hidden">
+        <div className="container mx-auto flex h-12 items-center justify-between gap-4 px-4 md:px-6">
+          <span className="truncate text-sm font-semibold text-primary">{siteConfig.name}</span>
+          {siteConfig.repositoryUrl && (
+            <a
+              href={siteConfig.repositoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              View source on GitHub
+            </a>
+          )}
+        </div>
+      </header>
+
       <main className="flex-1 print:p-0">
         <section className="border-b border-border/60 bg-background pb-8 pt-10 sm:pt-14 print:hidden">
           <div className="container mx-auto px-4 md:px-6">
