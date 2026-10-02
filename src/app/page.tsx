@@ -1,6 +1,6 @@
 import { ScorecardTool } from '@/components/scorecard/scorecard-tool';
 import { siteConfig } from '@/config/site';
-import { Database, Github, Wrench, ShieldAlert } from 'lucide-react';
+import { ArrowRight, Database, Github, Wrench, ShieldAlert } from 'lucide-react';
 
 const highlights = [
   {
@@ -73,6 +73,34 @@ export default function Home() {
                 </div>
               ))}
             </div>
+
+            {siteConfig.nextStep && (
+              <div className="mt-6 flex max-w-4xl flex-col gap-2 text-xs sm:flex-row sm:items-center sm:gap-3">
+                <span className="inline-flex items-center gap-2 font-semibold text-primary">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    1
+                  </span>
+                  Score your readiness here
+                </span>
+                <ArrowRight className="hidden h-3.5 w-3.5 text-foreground/40 sm:block" aria-hidden="true" />
+                <a
+                  href={siteConfig.nextStep.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-foreground/70 transition-colors hover:text-primary"
+                >
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full border border-primary/40 text-[10px] font-bold text-primary">
+                    2
+                  </span>
+                  <span>
+                    Then plan how AI runs your business with the{' '}
+                    <span className="font-medium text-primary underline underline-offset-4">
+                      {siteConfig.nextStep.name}
+                    </span>
+                  </span>
+                </a>
+              </div>
+            )}
           </div>
         </section>
 

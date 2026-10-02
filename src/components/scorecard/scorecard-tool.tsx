@@ -299,6 +299,11 @@ export function ScorecardTool() {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  /** Headline for the next-step card, matched to the score. Null hides the card. */
+  const nextStepLead = report
+    ? siteConfig.nextStep?.leadsByScore.find((l) => report.overallScore >= l.minScore)?.text ?? null
+    : null;
+
   const handleCopySummary = () => {
     if (!report) return;
     const blastText = blastReport
@@ -330,7 +335,11 @@ ${report.priorityActions.map((a, i) => `${i + 1}. ${a.title} (${a.timing})\n   $
 Where AI Will NOT Help:
 ${report.whereAiWillNotHelp.map((w) => `• ${w}`).join('\n')}${blastText}
 
-Audit run at: ${siteConfig.url}`;
+Audit run at: ${siteConfig.url}${
+      siteConfig.nextStep
+        ? `\nNext step, the ${siteConfig.nextStep.name}: ${siteConfig.nextStep.url}`
+        : ''
+    }`;
 
     navigator.clipboard.writeText(summaryText);
     setCopied(true);
@@ -869,6 +878,37 @@ Audit run at: ${siteConfig.url}`;
             </div>
           </div>
 
+          {/* Next step: the follow-on tool, configured in site.ts. It sits right after the
+              actions because that is the moment the reader asks "and then what?" */}
+          {siteConfig.nextStep && nextStepLead && (
+            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6 shadow-sm sm:p-8 print:hidden">
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                    <Workflow className="h-5 w-5" />
+                  </div>
+                  <div className="max-w-2xl">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-primary/70">
+                      {siteConfig.nextStep.eyebrow}
+                    </div>
+                    <h3 className="mt-1 font-headline text-lg font-bold text-primary sm:text-xl">
+                      {nextStepLead}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-foreground/75">
+                      {siteConfig.nextStep.body}
+                    </p>
+                  </div>
+                </div>
+                <Button asChild className="group w-full flex-shrink-0 font-semibold lg:w-auto">
+                  <a href={siteConfig.nextStep.url} target="_blank" rel="noopener noreferrer">
+                    {siteConfig.nextStep.label}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Honest note */}
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6 sm:p-8 print:break-inside-avoid print:border print:border-amber-500/50 print:bg-white print:p-5 print:shadow-none">
             <div className="mb-2 flex items-center gap-2 text-amber-600 dark:text-amber-400 print:text-amber-700">
@@ -893,29 +933,6 @@ Audit run at: ${siteConfig.url}`;
               ))}
             </ul>
           </div>
-
-          {/* Next step: a follow-on tool, configured in site.ts */}
-          {siteConfig.nextStep && (
-            <div className="flex flex-col gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between print:hidden">
-              <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Workflow className="h-4 w-4" />
-                </div>
-                <div className="max-w-2xl">
-                  <h3 className="font-headline text-base font-semibold text-primary">
-                    {siteConfig.nextStep.lead}
-                  </h3>
-                  <p className="mt-1 text-sm text-foreground/75">{siteConfig.nextStep.body}</p>
-                </div>
-              </div>
-              <Button asChild className="w-full flex-shrink-0 sm:w-auto">
-                <a href={siteConfig.nextStep.url} target="_blank" rel="noopener noreferrer">
-                  {siteConfig.nextStep.label}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-            </div>
-          )}
 
           {/* Actions */}
           <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row print:hidden">
