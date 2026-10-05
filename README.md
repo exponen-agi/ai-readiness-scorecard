@@ -1,10 +1,18 @@
-# AI Readiness Scorecard
+# AI Scorecard
 
-A self-serve AI readiness audit you can host yourself. Answer fourteen questions and get a
-straight read on where you stand before you build with AI: a weighted score across data, tools
-and team, a six-pillar radar chart, the two or three things worth doing first, an optional
-blast-radius check for anything that already runs unattended, and an honest note on where AI
-will not help you.
+A self-serve AI Scorecard you can host yourself, with two reports. Run one or both.
+
+- **AI-Readiness** — are you equipped to build with AI? A weighted score across data, tools and
+  team, a six-pillar radar chart, the two or three things worth doing first, an optional
+  blast-radius check for anything that already runs unattended, and an honest note on where AI
+  will not help you.
+- **AI-Native Readiness** — is what you are building shaped to work, and is the business
+  organised around it? It reads your main use case as rough-edged or sharp-edged, sets the
+  reliability bar that implies, checks the human hand-off and trust calibration, and scores
+  whether the workflow, metrics and learning loop are built around AI.
+
+Run both and the results open on a combined read — the two scores side by side, never averaged —
+with each report in its own tab.
 
 Everything runs in the browser. There is no backend, no database, no analytics, and no network
 call — the scoring is a pure function over your answers, and the page is a static export.
@@ -24,6 +32,8 @@ Accelerators* (80 and above). Six radar pillars break the same answers down by e
 dimension: data and indexing, privacy and policy, evals and testing, architecture and RAG,
 tracing and observability, guardrails and SDLC.
 
+### AI-Readiness
+
 **Agent blast-radius check (optional, 1–6 questions)**
 
 Readiness asks whether you are in a position to build the thing. Blast radius asks the separate
@@ -41,6 +51,40 @@ Exposure raises the bar rather than the score: the same controls that are fine f
 assistant are not enough for an agent that can spend money or message customers. Two hard rules
 override the average — no spend cap plus no loop bound is reported as *Unbounded* whatever else
 is in place, and a setup found out by the invoice never reads as fully contained.
+
+### AI-Native Readiness (13 questions)
+
+The second report asks a question readiness cannot: whether the thing you are building with AI
+is one today's models can do reliably, and whether the people and processes around it are
+designed for it. It is scored separately, so it never moves the readiness score.
+
+| Pillar | Weight | Covers |
+| --- | --- | --- |
+| Use-case fit | 35% | Rough- vs sharp-edged, cost of an error, automatic verifiability, chain length |
+| Human + AI design | 35% | The AI's role, the hand-off, over-reliance, how affected people see it |
+| Operating model | 30% | Workflow redesign, outcome metrics, correction loop, new-model routine, defensibility |
+
+The scoring borrows the framework from Michael Bernstein's Stanford webinar
+[*What AI Can and Cannot Do: Intelligence Augmentation in Practice*](https://www.youtube.com/watch?v=y4xvZnl102w):
+
+- **Rough-edged vs sharp-edged.** Rough-edged work has many acceptable answers, so a draft that
+  gets you 80% of the way is useful. Sharp-edged work has one right answer, so 80% is wrong.
+  The report places your use case on that scale, combines it with the cost of an error into a
+  **reliability bar**, and gives the play for today — use it now, lean on an automatic check, or
+  reframe the decision as a brief for the person who decides.
+- **The role has to fit the bar.** Letting the AI act alone scores well on a cheap, rough-edged
+  task and badly on a sharp-edged, high-stakes one — unless every output is checked against a
+  known answer, which is how coding agents handle sharp-edged work.
+- **Sharp edges compound.** A long agent chain checked only at the end gets a worked example of
+  how per-step accuracy multiplies.
+- **The seam and trust.** Hand-offs without context, rubber-stamping, and AI framed as
+  replacement each cost points; tracked override rates and co-design earn them.
+- **Augmentation metrics.** Time-and-cost-saved metrics score below outcome metrics, and
+  comparing people-plus-AI against people alone scores highest.
+
+As with blast radius, one hard rule overrides the average: a sharp-edged, high-stakes task that
+runs with no person and no automatic check is capped at *AI-Assisted* whatever else is in
+place. Tiers run from *AI-Curious* (under 40) to *AI-Native* (80 and above).
 
 ## Running it
 
@@ -81,7 +125,7 @@ rendered), and the next-step card under the results that points to the
 [AI-Native Flow Blueprint](https://github.com/exponen-agi/ai-native-flow) (set `nextStep` to `null`
 to hide it). The scoring engine has no branding in it at all, so a rebrand is that one file.
 
-To change the questions, edit `src/lib/scorecard.ts`:
+To change the AI-Readiness questions, edit `src/lib/scorecard.ts`:
 
 - `QUESTIONS` — the core readiness questions. Each option carries a 0–10 `score` and a
   `category` that must match its question's.
@@ -89,6 +133,9 @@ To change the questions, edit `src/lib/scorecard.ts`:
   `calculateScorecard` provably cannot see it.
 - `calculateScorecard` / `calculateBlastRadius` — weights, tier thresholds, priority-action
   rules, and the containment rules.
+
+The AI-Native Readiness questions, the reliability-bar and role rules, the autopilot cap and the
+combined read live in `src/lib/ai-native-scorecard.ts`.
 
 Run `npm test` after editing. The suite checks the invariants that are easy to break by hand:
 unique ids, scores inside 0–10, options tagged with their question's category, a perfect answer
@@ -112,6 +159,12 @@ const report = calculateScorecard({
 console.log(report.overallScore, report.maturityTier.title);
 
 const blast = calculateBlastRadius({ agent_autonomy: 'internal_writes' /* ... */ });
+
+import { calculateAiNative, combinedRead } from './lib/ai-native-scorecard';
+
+const native = calculateAiNative({ use_case_shape: 'sharp', error_cost: 'harm' /* ... */ });
+console.log(native.edge.title, native.edge.reliabilityBar, native.edge.play.title);
+console.log(combinedRead(report.overallScore, native.overallScore).title);
 ```
 
 Unanswered questions are skipped rather than counted as zero, so a partial run still produces a
@@ -132,7 +185,8 @@ src/
   components/scorecard/     the questionnaire and results UI, and the radar chart
   components/ui/            button and badge primitives
   config/site.ts            all branding, in one file
-  lib/scorecard.ts          questions, scoring, and report generation — no UI, no branding
+  lib/scorecard.ts          AI-Readiness questions, scoring, and blast radius — no UI, no branding
+  lib/ai-native-scorecard.ts  AI-Native Readiness questions, scoring, and the combined read
 tests/                      engine tests (vitest)
 ```
 

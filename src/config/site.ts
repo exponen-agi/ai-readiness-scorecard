@@ -7,11 +7,11 @@
  */
 export const siteConfig = {
   /** Browser tab, page heading, and the header of the printed report. */
-  name: 'AI Readiness Scorecard',
+  name: 'AI Scorecard',
   /** Organisation running this instance. Appears on the printed report header. */
   organization: 'ExponenLabs',
   description:
-    'A self-serve AI readiness audit. Answer a few questions and get a straight read on your data, tools, and team, the two or three things worth doing first, an optional agent blast-radius check, and an honest note on where AI will not help you.',
+    'A self-serve AI Scorecard with two reports. AI-Readiness: a straight read on your data, tools and team, with an optional agent blast-radius check. AI-Native Readiness: whether your main use case is rough- or sharp-edged, whether the human hand-off is designed, and whether the work is built around AI. Each comes with the two or three things worth doing first.',
   /** Public URL of this deployment. Used for metadata and the footer of the copied summary. */
   url: 'https://exponen-agi.github.io/ai-readiness-scorecard',
   /** Where the source lives. Rendered in the footer; set to null to hide the link. */

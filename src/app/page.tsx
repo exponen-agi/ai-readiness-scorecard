@@ -1,22 +1,22 @@
 import { ScorecardTool } from '@/components/scorecard/scorecard-tool';
 import { siteConfig } from '@/config/site';
-import { ArrowRight, Database, Github, Wrench, ShieldAlert } from 'lucide-react';
+import { ArrowRight, Gauge, Github, Rocket, ShieldAlert } from 'lucide-react';
 
 const highlights = [
   {
-    icon: Database,
-    title: 'A straight score',
-    body: 'Where your data, tools, and team actually stand, weighted rather than averaged.',
+    icon: Gauge,
+    title: 'AI-Readiness',
+    body: 'Are your data, tools, and team ready to build with AI? Plus an optional blast-radius check.',
   },
   {
-    icon: Wrench,
-    title: 'Two or three actions',
-    body: 'The highest-leverage things worth doing first, picked from your specific gaps.',
+    icon: Rocket,
+    title: 'AI-Native Readiness',
+    body: 'Is your use case rough- or sharp-edged, is the human hand-off designed, and is the work built around AI?',
   },
   {
     icon: ShieldAlert,
-    title: 'An honest reality check',
-    body: 'A plain note on where AI will not help you, and an optional blast-radius check.',
+    title: 'Actions and a reality check',
+    body: 'The two or three things worth doing first in each, and a plain note on where AI will not help.',
   },
 ];
 
@@ -51,9 +51,9 @@ export default function Home() {
                 {siteConfig.name}
               </h1>
               <p className="mt-4 text-lg leading-relaxed text-foreground/80">
-                Answer a few questions and get a straight read on where you stand before you build
-                with AI. Nothing is uploaded, stored, or sent anywhere — the scoring runs locally
-                and the page has no backend.
+                Two reports in one: whether you are ready to build with AI, and whether what you
+                are building is shaped to be AI-native. Run one or both. Nothing is uploaded,
+                stored, or sent anywhere — the scoring runs locally and the page has no backend.
               </p>
             </div>
 
@@ -80,7 +80,7 @@ export default function Home() {
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                     1
                   </span>
-                  Score your readiness here
+                  Score yourself here
                 </span>
                 <ArrowRight className="hidden h-3.5 w-3.5 text-foreground/40 sm:block" aria-hidden="true" />
                 <a
